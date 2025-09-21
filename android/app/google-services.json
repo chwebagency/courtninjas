@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "181714112197",
+    "project_id": "courtninjas",
+    "storage_bucket": "courtninjas.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181714112197:android:371a65f3200f86aef52aac",
+        "android_client_info": {
+          "package_name": "com.example.myapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "181714112197-f567dj1fj30ake9voatl402v00l322qt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1IfAKfuZUg2joa403Wda8sei_3i89JJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "181714112197-f567dj1fj30ake9voatl402v00l322qt.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "181714112197-cntbj9psodg1kqrgppof0rvjalbemjtr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.courtninjas.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

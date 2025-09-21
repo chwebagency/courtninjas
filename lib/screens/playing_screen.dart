@@ -5,6 +5,8 @@ class PlayingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Playing'));
+    return const Center(
+      child: Text('Playing Screen'),
+    );
   }
 }

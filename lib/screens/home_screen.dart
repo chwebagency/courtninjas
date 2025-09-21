@@ -1,92 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final Widget child;
 
   const HomeScreen({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context) {
-    final String location = GoRouterState.of(context).uri.toString();
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
-    // Helper function to create navigation items
-    Widget _buildNavItem(BuildContext context, String title, String route, IconData icon) {
-      final bool isSelected = location == route;
-      return ListTile(
-        leading: Icon(icon, color: isSelected ? Theme.of(context).primaryColor : Colors.white),
-        title: Text(
-          title,
-          style: TextStyle(
-            color: isSelected ? Theme.of(context).primaryColor : Colors.white,
-            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-          ),
-        ),
-        onTap: () => context.go(route),
-        selected: isSelected,
-      );
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index, BuildContext context) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    switch (index) {
+      case 0:
+        context.go('/home');
+        break;
+      case 1:
+        context.go('/events');
+        break;
+      case 2:
+        context.go('/challenges');
+        break;
+      case 3:
+        context.go('/following');
+        break;
     }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 120,
-        leading: TextButton.icon(
-          icon: const Icon(Icons.home, color: Colors.white),
-          label: const Text('Home', style: TextStyle(color: Colors.white)),
-          onPressed: () => context.go('/home'),
-        ),
-        title: const Text(
-          'CourtNinjas',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            color: Color(0xFF333964),
-          ),
-        ),
+        title: const Text('CourtNinjas'),
         actions: [
-          TextButton.icon(
-            icon: const Icon(Icons.logout, color: Colors.white),
-            label: const Text('Logout', style: TextStyle(color: Colors.white)),
-            onPressed: () => context.go('/login'),
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              // TODO: Navigate to profile screen
+            },
           ),
-          const SizedBox(width: 16),
         ],
       ),
-      body: Row(
-        children: [
-          SizedBox(
-            width: 240,
-            child: Container(
-              color: const Color(0xFF333964),
-              child: ListView(
-                children: [
-                  _buildNavItem(context, 'Playing', '/playing', Icons.videogame_asset),
-                  _buildNavItem(context, 'Set Availability', '/set-availability', Icons.event_available),
-                  _buildNavItem(context, 'Captain', '/captain', Icons.shield),
-                  _buildNavItem(context, 'Pending Invites', '/pending-invites', Icons.mail),
-                  _buildNavItem(context, 'Challenges', '/challenges', Icons.gamepad),
-                  _buildNavItem(context, 'Following', '/following', Icons.people),
-                ],
-              ),
-            ),
+      body: widget.child,
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
-          const VerticalDivider(thickness: 1, width: 1, color: Colors.white24),
-          Expanded(
-            child: Container(
-              color: Colors.white.withOpacity(0.09),
-              child: child,
-            ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.event),
+            label: 'Events',
           ),
-          const VerticalDivider(thickness: 1, width: 1, color: Colors.white24),
-          SizedBox(
-            width: 240,
-            child: Container(
-              color: const Color(0xFF333964),
-            ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shield),
+            label: 'Challenges',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.people),
+            label: 'Following',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Colors.grey,
+        onTap: (index) => _onItemTapped(index, context),
       ),
     );
   }
