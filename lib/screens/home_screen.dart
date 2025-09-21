@@ -24,7 +24,36 @@ class HomeScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Strategy Game')),
+      appBar: AppBar(
+        leadingWidth: 120, // Adjust width to fit text
+        leading: TextButton.icon(
+          icon: const Icon(Icons.home, color: Colors.white),
+          label: const Text('Home', style: TextStyle(color: Colors.white)),
+          onPressed: () => context.go('/home'),
+        ),
+        title: const Text(
+          'CourtNinjas',
+          style: TextStyle(color: Colors.white),
+        ),
+        centerTitle: true,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF000000), Color(0xFF333333)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton.icon(
+            icon: const Icon(Icons.logout, color: Colors.white),
+            label: const Text('Logout', style: TextStyle(color: Colors.white)),
+            onPressed: () => context.go('/login'),
+          ),
+          const SizedBox(width: 16),
+        ],
+      ),
       body: Row(
         children: [
           NavigationRail(

@@ -16,40 +16,84 @@ final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/login',
   routes: [
-    GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
+    GoRoute(
+      path: '/login',
+      pageBuilder: (context, state) => CustomTransitionPage(
+        child: const LoginScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+      ),
+    ),
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
-      builder: (context, state, child) {
-        return HomeScreen(child: child);
-      },
+      pageBuilder: (context, state, child) => CustomTransitionPage(
+        child: HomeScreen(child: child),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+      ),
       routes: [
         GoRoute(
           path: '/home',
-          builder: (context, state) => const PlayingScreen(),
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const PlayingScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          ),
         ),
         GoRoute(
           path: '/playing',
-          builder: (context, state) => const PlayingScreen(),
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const PlayingScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          ),
         ),
         GoRoute(
           path: '/set-availability',
-          builder: (context, state) => const SetAvailabilityScreen(),
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const SetAvailabilityScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          ),
         ),
         GoRoute(
           path: '/captain',
-          builder: (context, state) => const CaptainScreen(),
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const CaptainScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          ),
         ),
         GoRoute(
           path: '/pending-invites',
-          builder: (context, state) => const PendingInvitesScreen(),
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const PendingInvitesScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          ),
         ),
         GoRoute(
           path: '/challenges',
-          builder: (context, state) => const ChallengesScreen(),
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const ChallengesScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          ),
         ),
         GoRoute(
           path: '/following',
-          builder: (context, state) => const FollowingScreen(),
+          pageBuilder: (context, state) => CustomTransitionPage(
+            child: const FollowingScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) =>
+                    FadeTransition(opacity: animation, child: child),
+          ),
         ),
       ],
     ),
