@@ -19,15 +19,19 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 AppCustomTransitionPage<void> _buildTransition(Widget child) {
   return AppCustomTransitionPage(
     child: child,
-    transitionsBuilder: (BuildContext context, Animation<double> animation,
-            Animation<double> secondaryAnimation, Widget child) =>
-        FadeTransition(opacity: animation, child: child),
+    transitionsBuilder:
+        (
+          BuildContext context,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+          Widget child,
+        ) => FadeTransition(opacity: animation, child: child),
   );
 }
 
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
-  initialLocation: '/events', // Set initial route to /events
+  initialLocation: '/login', // Set initial route to /login
   routes: [
     GoRoute(
       path: '/login',
@@ -74,25 +78,28 @@ final router = GoRouter(
               _buildTransition(const FollowingScreen()),
         ),
         GoRoute(
-            path: '/events',
-            pageBuilder: (context, state) =>
-                _buildTransition(const EventsScreen()),
-            routes: [
-              GoRoute(
-                path: 'create',
-                parentNavigatorKey: _rootNavigatorKey, // Display outside the shell
-                pageBuilder: (context, state) =>
-                    _buildTransition(const CreateEventScreen()),
-              ),
-              GoRoute(
-                path: ':id',
-                parentNavigatorKey: _rootNavigatorKey, // Display outside the shell
-                pageBuilder: (context, state) {
-                  final eventId = state.pathParameters['id']!;
-                  return _buildTransition(EventDetailsScreen(eventId: eventId));
-                },
-              ),
-            ]),
+          path: '/events',
+          pageBuilder: (context, state) =>
+              _buildTransition(const EventsScreen()),
+          routes: [
+            GoRoute(
+              path: 'create',
+              parentNavigatorKey:
+                  _rootNavigatorKey, // Display outside the shell
+              pageBuilder: (context, state) =>
+                  _buildTransition(const CreateEventScreen()),
+            ),
+            GoRoute(
+              path: ':id',
+              parentNavigatorKey:
+                  _rootNavigatorKey, // Display outside the shell
+              pageBuilder: (context, state) {
+                final eventId = state.pathParameters['id']!;
+                return _buildTransition(EventDetailsScreen(eventId: eventId));
+              },
+            ),
+          ],
+        ),
       ],
     ),
   ],

@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
 import '../providers/event_provider.dart';
 import '../widgets/event_card.dart';
 
-class EventsScreen extends StatefulWidget {
-  const EventsScreen({super.key});
+class MyEventsScreen extends StatefulWidget {
+  const MyEventsScreen({super.key});
 
   @override
-  State<EventsScreen> createState() => _EventsScreenState();
+  State<MyEventsScreen> createState() => _MyEventsScreenState();
 }
 
-class _EventsScreenState extends State<EventsScreen> {
+class _MyEventsScreenState extends State<MyEventsScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch events when the screen is first initialized
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<EventProvider>(context, listen: false).fetchEvents();
     });
@@ -23,6 +21,8 @@ class _EventsScreenState extends State<EventsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    const currentUserId = 'current_user_id'; // Placeholder for auth
+
     return Scaffold(
       body: Consumer<EventProvider>(
         builder: (context, eventProvider, child) {
@@ -30,30 +30,29 @@ class _EventsScreenState extends State<EventsScreen> {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (eventProvider.events.isEmpty) {
+          final myEvents = eventProvider.events
+              .where((e) => e.rsvps.containsKey(currentUserId))
+              .toList();
+
+          if (myEvents.isEmpty) {
             return const Center(
               child: Text(
-                'No events yet. Be the first to create one!',
+                'You haven\'t RSVP\'d to any events yet.\nGo to the Events tab to find some!',
                 style: TextStyle(fontSize: 18, color: Colors.grey),
+                textAlign: TextAlign.center,
               ),
             );
           }
 
           return ListView.builder(
             padding: const EdgeInsets.all(16.0),
-            itemCount: eventProvider.events.length,
+            itemCount: myEvents.length,
             itemBuilder: (context, index) {
-              final event = eventProvider.events[index];
-              return EventCard(event: event);
+              final event = myEvents[index];
+              return EventCard(event: event, currentUserId: currentUserId);
             },
           );
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => context.go('/events/create'),
-        backgroundColor: Colors.deepPurple,
-        tooltip: 'Create Event',
-        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

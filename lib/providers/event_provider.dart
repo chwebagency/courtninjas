@@ -37,4 +37,13 @@ class EventProvider with ChangeNotifier {
     // to reflect the new RSVP status in the UI.
     notifyListeners();
   }
+
+  Future<void> deleteEvent(String eventId) async {
+    _isLoading = true;
+    notifyListeners();
+    await _eventService.deleteEvent(eventId);
+    await fetchEvents();
+    _isLoading = false;
+    notifyListeners();
+  }
 }

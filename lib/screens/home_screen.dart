@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HomeScreen extends StatefulWidget {
   final Widget child;
@@ -33,11 +34,17 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    context.go('/login'); // Navigate to the login screen after logout
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CourtNinjas'),
+        title: const Text('Tennis Ninjas'),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.person),
@@ -45,27 +52,22 @@ class _HomeScreenState extends State<HomeScreen> {
               // TODO: Navigate to profile screen
             },
           ),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () => _logout(context),
+          ),
         ],
       ),
       body: widget.child,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event),
-            label: 'Events',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.event), label: 'Events'),
           BottomNavigationBarItem(
             icon: Icon(Icons.shield),
             label: 'Challenges',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'Following',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: 'Following'),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Theme.of(context).colorScheme.primary,

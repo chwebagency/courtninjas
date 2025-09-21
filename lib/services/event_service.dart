@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/event.dart';
 
 class EventService {
-  final CollectionReference _eventsCollection = FirebaseFirestore.instance.collection('events');
+  final CollectionReference _eventsCollection = FirebaseFirestore.instance
+      .collection('events');
 
   Future<List<Event>> getEvents() async {
     try {
-      QuerySnapshot snapshot = await _eventsCollection.orderBy('dateTime', descending: true).get();
+      QuerySnapshot snapshot = await _eventsCollection
+          .orderBy('dateTime', descending: true)
+          .get();
       return snapshot.docs.map((doc) => Event.fromFirestore(doc)).toList();
     } catch (e) {
       print('Error getting events: $e');
@@ -42,6 +45,14 @@ class EventService {
       });
     } catch (e) {
       print('Error RSVPing to event: $e');
+    }
+  }
+
+  Future<void> deleteEvent(String eventId) async {
+    try {
+      await _eventsCollection.doc(eventId).delete();
+    } catch (e) {
+      print('Error deleting event: $e');
     }
   }
 }

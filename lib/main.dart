@@ -7,9 +7,7 @@ import 'router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -21,6 +19,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => EventProvider(),
       child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         routerConfig: router,
         title: 'CourtNinjas',
         theme: ThemeData(
@@ -29,9 +28,7 @@ class MyApp extends StatelessWidget {
             seedColor: Colors.deepPurple,
             brightness: Brightness.dark,
           ),
-          appBarTheme: const AppBarTheme(
-            foregroundColor: Colors.white,
-          ),
+          appBarTheme: const AppBarTheme(foregroundColor: Colors.white),
         ),
       ),
     );
