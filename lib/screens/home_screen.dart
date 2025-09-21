@@ -8,24 +8,28 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determine the selected index based on the current route
     final String location = GoRouterState.of(context).uri.toString();
-    int selectedIndex = 0; // Default to Playing
-    if (location == '/set-availability') {
-      selectedIndex = 1;
-    } else if (location == '/captain') {
-      selectedIndex = 2;
-    } else if (location == '/pending-invites') {
-      selectedIndex = 3;
-    } else if (location == '/challenges') {
-      selectedIndex = 4;
-    } else if (location == '/following') {
-      selectedIndex = 5;
+
+    // Helper function to create navigation items
+    Widget _buildNavItem(BuildContext context, String title, String route, IconData icon) {
+      final bool isSelected = location == route;
+      return ListTile(
+        leading: Icon(icon, color: isSelected ? Theme.of(context).primaryColor : Colors.white),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: isSelected ? Theme.of(context).primaryColor : Colors.white,
+            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+          ),
+        ),
+        onTap: () => context.go(route),
+        selected: isSelected,
+      );
     }
 
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 120, // Adjust width to fit text
+        leadingWidth: 120,
         leading: TextButton.icon(
           icon: const Icon(Icons.home, color: Colors.white),
           label: const Text('Home', style: TextStyle(color: Colors.white)),
@@ -38,11 +42,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         flexibleSpace: Container(
           decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF000000), Color(0xFF333333)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: Color(0xFF333964),
           ),
         ),
         actions: [
@@ -56,60 +56,36 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Row(
         children: [
-          NavigationRail(
-            selectedIndex: selectedIndex,
-            onDestinationSelected: (int index) {
-              switch (index) {
-                case 0:
-                  context.go('/playing');
-                  break;
-                case 1:
-                  context.go('/set-availability');
-                  break;
-                case 2:
-                  context.go('/captain');
-                  break;
-                case 3:
-                  context.go('/pending-invites');
-                  break;
-                case 4:
-                  context.go('/challenges');
-                  break;
-                case 5:
-                  context.go('/following');
-                  break;
-              }
-            },
-            labelType: NavigationRailLabelType.all,
-            destinations: const [
-              NavigationRailDestination(
-                icon: Icon(Icons.videogame_asset),
-                label: Text('Playing'),
+          SizedBox(
+            width: 240,
+            child: Container(
+              color: const Color(0xFF333964),
+              child: ListView(
+                children: [
+                  _buildNavItem(context, 'Playing', '/playing', Icons.videogame_asset),
+                  _buildNavItem(context, 'Set Availability', '/set-availability', Icons.event_available),
+                  _buildNavItem(context, 'Captain', '/captain', Icons.shield),
+                  _buildNavItem(context, 'Pending Invites', '/pending-invites', Icons.mail),
+                  _buildNavItem(context, 'Challenges', '/challenges', Icons.gamepad),
+                  _buildNavItem(context, 'Following', '/following', Icons.people),
+                ],
               ),
-              NavigationRailDestination(
-                icon: Icon(Icons.event_available),
-                label: Text('Set Availability'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.shield),
-                label: Text('Captain'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.mail),
-                label: Text('Pending Invites'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.gamepad),
-                label: Text('Challenges'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.people),
-                label: Text('Following'),
-              ),
-            ],
+            ),
           ),
-          const VerticalDivider(thickness: 1, width: 1),
-          Expanded(child: child),
+          const VerticalDivider(thickness: 1, width: 1, color: Colors.white24),
+          Expanded(
+            child: Container(
+              color: Colors.white.withOpacity(0.09),
+              child: child,
+            ),
+          ),
+          const VerticalDivider(thickness: 1, width: 1, color: Colors.white24),
+          SizedBox(
+            width: 240,
+            child: Container(
+              color: const Color(0xFF333964),
+            ),
+          ),
         ],
       ),
     );
