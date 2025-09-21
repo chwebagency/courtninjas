@@ -23,6 +23,7 @@ local.properties
 .packages
 .pub-cache/
 .pub/
+.dart_tool/
 /ios/Pods/
 /ios/.symlinks/
 /ios/Flutter/App.framework
